@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "320994156177",
+    "firebase_url": "https://tree-counter.firebaseio.com",
+    "project_id": "tree-counter",
+    "storage_bucket": "tree-counter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320994156177:android:64bad86f7751894f",
+        "android_client_info": {
+          "package_name": "com.example.treesquad.leafspace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320994156177-g6q1113iv5v5o7skcclslmigkrgm3r52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1g6iqwPRdd-jZXWNlwdwKS3JloLmAzLs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320994156177:android:679fc72ad7bdfc3f",
+        "android_client_info": {
+          "package_name": "edu.cmsc436.treespace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320994156177-g6q1113iv5v5o7skcclslmigkrgm3r52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1g6iqwPRdd-jZXWNlwdwKS3JloLmAzLs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
