@@ -76,14 +76,25 @@ public class Api {
                 });
     }
 
+    public void getRecordImage(TreeRecord record, Callback<TreeRecord> callback) {
+        getImageByName(record.imageName, (bitmap, success) -> {
+            record.image = bitmap;
+            callback.handle(record, success);
+        });
+    }
+
     public void getAllTrees(Callback<List<TreeRecord>> callback) {
         this.db.collection("trees")
                 .get()
                 .addOnSuccessListener(task -> {
                     List<TreeRecord> records = new ArrayList<>(task.getDocuments().size());
                     for (DocumentSnapshot doc : task.getDocuments()) {
-                        // TODO
+                        Date created = (Date) doc.get("created");
+                        String imageName = (String) doc.get("image");
+                        GeoPoint location = (GeoPoint) doc.get("location");
+                        records.add(new TreeRecord(location, null, created, imageName, doc.getId()));
                     }
+                    callback.handle(records, true);
                 })
                 .addOnFailureListener(task -> callback.handle(null, false));
     }

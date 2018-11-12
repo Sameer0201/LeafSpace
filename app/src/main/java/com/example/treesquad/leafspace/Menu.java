@@ -3,14 +3,41 @@ package com.example.treesquad.leafspace;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.example.treesquad.leafspace.api.Api;
+import com.example.treesquad.leafspace.db.TreeRecord;
 
 public class Menu extends AppCompatActivity {
+
+    private static final String TAG = "LEAFSPACE";
+    private Api api;
+    private ImageView menuPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        menuPic = findViewById(R.id.menuPic);
+        api = Api.getInstance();
+
+        api.getAllTrees((treeRecords, success) -> {
+            if (!success) {
+                Log.d(TAG, "failed to fetch tree records");
+                return;
+            }
+            // just display the first tree in the list for proof of concept
+
+            TreeRecord record = treeRecords.get(0);
+
+            // images need to be downloaded separately
+            api.getRecordImage(record, (treeRecord, success1) -> {
+                menuPic.setImageBitmap(treeRecord.image);
+            });
+        });
 
     }
     private int[] pids= {0,0,0,0,0,0,0,0,0,0};
