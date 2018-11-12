@@ -10,11 +10,14 @@ import android.widget.ImageView;
 import com.example.treesquad.leafspace.api.Api;
 import com.example.treesquad.leafspace.db.TreeRecord;
 
+import java.util.List;
+
 public class Menu extends AppCompatActivity {
 
     private static final String TAG = "LEAFSPACE";
     private Api api;
     private ImageView menuPic;
+    private List<TreeRecord> treeRecords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class Menu extends AppCompatActivity {
                 Log.d(TAG, "failed to fetch tree records");
                 return;
             }
+            this.treeRecords = treeRecords;
             // just display the first tree in the list for proof of concept
 
             TreeRecord record = treeRecords.get(0);
@@ -47,6 +51,7 @@ public class Menu extends AppCompatActivity {
         Intent i = new Intent(Menu.this, dataView.class);
         int pid=pids[currentPID];
         i.putExtra("id",pid);
+        i.putExtra("tree_record", treeRecords.get(0));
         //database stuff
         startActivity(i);
     }
