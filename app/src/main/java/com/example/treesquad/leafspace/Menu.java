@@ -79,4 +79,10 @@ public class Menu extends AppCompatActivity {
         //set the main img to current pid, then change the prev and next. This requires database stuff
 
     }
+
+    public void OnAddNewTreeClicked(View view)
+    {
+        Intent i = new Intent(this, TreeInputActivity.class);
+        startActivity(i);
+    }
 }
