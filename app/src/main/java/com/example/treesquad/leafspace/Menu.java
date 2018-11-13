@@ -11,6 +11,7 @@ import com.example.treesquad.leafspace.api.Api;
 import com.example.treesquad.leafspace.db.TreeRecord;
 
 import java.util.List;
+import java.util.Map;
 
 public class Menu extends AppCompatActivity {
 
@@ -83,6 +84,12 @@ public class Menu extends AppCompatActivity {
     public void OnAddNewTreeClicked(View view)
     {
         Intent i = new Intent(this, TreeInputActivity.class);
+        startActivity(i);
+    }
+
+    public void OnBrowseTreesClicked(View view)
+    {
+        Intent i = new Intent(this, MapActivity.class);
         startActivity(i);
     }
 }
