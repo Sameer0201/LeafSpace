@@ -1,4 +1,4 @@
-package com.example.treesquad.leafspace.api;
+package com.example.treesquad.leafspace.db.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -89,10 +89,7 @@ public class Api {
                 .addOnSuccessListener(task -> {
                     List<TreeRecord> records = new ArrayList<>(task.getDocuments().size());
                     for (DocumentSnapshot doc : task.getDocuments()) {
-                        Date created = (Date) doc.get("created");
-                        String imageName = (String) doc.get("image");
-                        GeoPoint location = (GeoPoint) doc.get("location");
-                        records.add(new TreeRecord(location, null, created, imageName, doc.getId()));
+                        records.add(new TreeRecord(doc));
                     }
                     callback.handle(records, true);
                 })
@@ -109,13 +106,9 @@ public class Api {
     public void putTree(TreeRecord record, Callback<TreeRecord> callback) {
         putImage(record.image, (imageFileName, success) -> {
             if (success) {
-                Map<String, Object> recordMap = new HashMap<>();
-                recordMap.put("created", record.created);
-                recordMap.put("image", imageFileName);
-                recordMap.put("location", record.location);
-
+                record.imageName = imageFileName;
                 db.collection("trees")
-                        .add(recordMap)
+                        .add(record.toMap())
                         .addOnCompleteListener(dbtask -> callback.handle(record, dbtask.isSuccessful()));
             } else {
                 callback.handle(null, false);

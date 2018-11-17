@@ -7,11 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.treesquad.leafspace.api.Api;
+import com.example.treesquad.leafspace.db.api.Api;
 import com.example.treesquad.leafspace.db.TreeRecord;
 
 import java.util.List;
-import java.util.Map;
 
 public class Menu extends AppCompatActivity {
 
