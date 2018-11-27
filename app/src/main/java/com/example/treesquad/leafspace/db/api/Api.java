@@ -3,6 +3,7 @@ package com.example.treesquad.leafspace.db.api;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.treesquad.leafspace.db.Comment;
 import com.example.treesquad.leafspace.db.TreeRecord;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,6 +68,8 @@ public class Api {
                         String imageName = (String) task.getResult().get("image");
                         GeoPoint location = (GeoPoint) task.getResult().get("location");
 
+
+
                         getImageByName(imageName, (bitmap, success) ->
                                 callback.handle(new TreeRecord(location, bitmap, created, imageName, id), success)
                         );
@@ -74,6 +77,29 @@ public class Api {
                         callback.handle(null, false);
                     }
                 });
+    }
+
+    public void getTreeComments(TreeRecord treeRecord, Callback<List<Comment>> callback) {
+        this.db.collection("trees")
+                .document(treeRecord.id)
+                .collection("comments")
+                .get()
+                .addOnSuccessListener(task -> {
+                   List<Comment> comments = new ArrayList<>();
+                   for (DocumentSnapshot doc : task.getDocuments()) {
+                       comments.add(new Comment(doc));
+                   }
+                   callback.handle(comments, true);
+                })
+                .addOnFailureListener(task -> callback.handle(null, false));
+    }
+
+    public void putTreeComment(TreeRecord treeRecord, Comment comment, Callback<Comment> callback) {
+        this.db.collection("trees")
+                .document(treeRecord.id)
+                .collection("comments")
+                .add(comment.toMap())
+                .addOnCompleteListener(task -> callback.handle(comment, task.isSuccessful()));
     }
 
     public void getRecordImage(TreeRecord record, Callback<TreeRecord> callback) {
