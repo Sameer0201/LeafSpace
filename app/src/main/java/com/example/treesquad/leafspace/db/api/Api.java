@@ -95,6 +95,7 @@ public class Api {
     }
 
     public void putTreeComment(TreeRecord treeRecord, Comment comment, Callback<Comment> callback) {
+        comment.created = new Date();
         this.db.collection("trees")
                 .document(treeRecord.id)
                 .collection("comments")
