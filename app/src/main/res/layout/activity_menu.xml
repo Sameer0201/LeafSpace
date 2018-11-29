@@ -27,8 +27,8 @@
             android:orientation="horizontal"
             >
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/menuPic0"
                 android:src="@raw/defaulttree1"
                 android:layout_below="@id/title"
@@ -39,8 +39,8 @@
                 android:layout_weight="5"
                 />
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/menuPic"
                 android:src="@raw/defaulttree1"
                 android:layout_below="@id/title"
@@ -51,8 +51,8 @@
                 android:layout_weight="1"
                 />
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/menuPic2"
                 android:src="@raw/defaulttree1"
                 android:layout_below="@id/title"

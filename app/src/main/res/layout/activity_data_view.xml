@@ -54,8 +54,54 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                     <TextView
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Species Loading"
+                        android:id="@+id/species"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tree Height(aprox)"
+                        android:id="@+id/height"
+                        android:layout_below="@+id/species"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tree diameter(aprox)"
+                        android:layout_below="@+id/height"
+
+                        android:id="@+id/diam"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tree age(aprox)"
+                        android:id="@+id/age"
+                        android:layout_below="@+id/diam"/>
+
+
+                        <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Health"
+                            android:layout_below="@+id/age"
+
+                            android:id="@+id/health"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Life Expectancy"
+                        android:layout_below="@+id/health"
+
+                        android:id="@+id/life"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/life"
+
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:scrollbars= "vertical"
@@ -67,6 +113,7 @@
              Loading \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 "/>
+                    </RelativeLayout>
                 </ScrollView>
             </LinearLayout>
 
@@ -80,15 +127,18 @@
         <Button
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Not a Tree"/>
+        android:text="Not a Tree"
+            android:onClick="onNot"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Comments"/>
+            android:text="Comments"
+            android:onClick="gotoComments"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Tree is OK now"/>
+            android:text="Tree is OK now"
+            android:onClick="onOK"/>
     </LinearLayout>
 </LinearLayout>
     </RelativeLayout>
