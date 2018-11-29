@@ -1,8 +1,9 @@
-package com.example.treesquad.leafspace.api;
+package com.example.treesquad.leafspace.db.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.treesquad.leafspace.db.Comment;
 import com.example.treesquad.leafspace.db.TreeRecord;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,6 +68,8 @@ public class Api {
                         String imageName = (String) task.getResult().get("image");
                         GeoPoint location = (GeoPoint) task.getResult().get("location");
 
+
+
                         getImageByName(imageName, (bitmap, success) ->
                                 callback.handle(new TreeRecord(location, bitmap, created, imageName, id), success)
                         );
@@ -74,6 +77,30 @@ public class Api {
                         callback.handle(null, false);
                     }
                 });
+    }
+
+    public void getTreeComments(TreeRecord treeRecord, Callback<List<Comment>> callback) {
+        this.db.collection("trees")
+                .document(treeRecord.id)
+                .collection("comments")
+                .get()
+                .addOnSuccessListener(task -> {
+                   List<Comment> comments = new ArrayList<>();
+                   for (DocumentSnapshot doc : task.getDocuments()) {
+                       comments.add(new Comment(doc));
+                   }
+                   callback.handle(comments, true);
+                })
+                .addOnFailureListener(task -> callback.handle(null, false));
+    }
+
+    public void putTreeComment(TreeRecord treeRecord, Comment comment, Callback<Comment> callback) {
+        comment.created = new Date();
+        this.db.collection("trees")
+                .document(treeRecord.id)
+                .collection("comments")
+                .add(comment.toMap())
+                .addOnCompleteListener(task -> callback.handle(comment, task.isSuccessful()));
     }
 
     public void getRecordImage(TreeRecord record, Callback<TreeRecord> callback) {
@@ -89,10 +116,7 @@ public class Api {
                 .addOnSuccessListener(task -> {
                     List<TreeRecord> records = new ArrayList<>(task.getDocuments().size());
                     for (DocumentSnapshot doc : task.getDocuments()) {
-                        Date created = (Date) doc.get("created");
-                        String imageName = (String) doc.get("image");
-                        GeoPoint location = (GeoPoint) doc.get("location");
-                        records.add(new TreeRecord(location, null, created, imageName, doc.getId()));
+                        records.add(new TreeRecord(doc));
                     }
                     callback.handle(records, true);
                 })
@@ -109,13 +133,9 @@ public class Api {
     public void putTree(TreeRecord record, Callback<TreeRecord> callback) {
         putImage(record.image, (imageFileName, success) -> {
             if (success) {
-                Map<String, Object> recordMap = new HashMap<>();
-                recordMap.put("created", record.created);
-                recordMap.put("image", imageFileName);
-                recordMap.put("location", record.location);
-
+                record.imageName = imageFileName;
                 db.collection("trees")
-                        .add(recordMap)
+                        .add(record.toMap())
                         .addOnCompleteListener(dbtask -> callback.handle(record, dbtask.isSuccessful()));
             } else {
                 callback.handle(null, false);

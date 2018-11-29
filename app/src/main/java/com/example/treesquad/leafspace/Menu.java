@@ -7,11 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.treesquad.leafspace.api.Api;
+import com.example.treesquad.leafspace.db.Comment;
+import com.example.treesquad.leafspace.db.api.Api;
 import com.example.treesquad.leafspace.db.TreeRecord;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class Menu extends AppCompatActivity {
 
@@ -42,6 +43,11 @@ public class Menu extends AppCompatActivity {
             api.getRecordImage(record, (treeRecord, success1) -> {
                 menuPic.setImageBitmap(treeRecord.image);
             });
+
+            // test adding a comment
+            Comment comment = new Comment.Builder().text("test " + new Date()).build();
+            api.putTreeComment(record, comment, (info, success1) -> {});
+
         });
 
     }
