@@ -1,5 +1,10 @@
 package com.example.treesquad.leafspace;
 
+import com.example.treesquad.leafspace.db.TreeRecord;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,6 +15,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
@@ -17,13 +24,20 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
 
     //constants
     private static final String TAG = "MapActivity";
@@ -36,16 +50,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient mFused;
     private Location mLastKnownLocation;
+    private Marker currMarker;
+    private ArrayList<Marker> mMarkers;
+    private HashMap<String,GeoPoint> mTrees;
+    private ImageView mInfo;
+    private FirebaseFirestore db;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        mInfo = findViewById(R.id.marker_info);
+        mMarkers = new ArrayList<Marker>();
+        mTrees = new HashMap<String,GeoPoint>();
+
+        db = FirebaseFirestore.getInstance();
+        getTrees();
 
         getLocPerm();
 
         mFused = LocationServices.getFusedLocationProviderClient(this);
-
     }
 
     private void initMap() {
@@ -57,11 +81,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this,"Map is ready!", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
 
         if(mLocPermGranted) {
             updateLocationUI();
             getDeviceLocation();
         }
+
+        mInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked place info");
+                try{
+                    if(currMarker.isInfoWindowShown()){
+                        currMarker.hideInfoWindow();
+                    }else{
+                        currMarker.showInfoWindow();
+                    }
+                }catch (NullPointerException e){
+                    Log.e(TAG, "onClick: NullPointerException: " + e.getMessage() );
+                }
+            }
+        });
     }
 
     private void getLocPerm() {
@@ -150,5 +191,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch(SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    public void dropMarker(LatLng pos, String title, String snippet) {
+        MarkerOptions options = new MarkerOptions()
+                .position(pos)
+                .title(title)
+                .snippet(snippet);
+        Marker newMarker = mMap.addMarker(options);
+        mMarkers.add(newMarker);
+        Log.d(TAG,"Added marker with title: " + title);
+    }
+
+    public boolean onMarkerClick(Marker marker) {
+        currMarker = marker;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currMarker.getPosition()));
+        return true;
+    }
+
+    public void getTrees() {
+        db.collection("trees")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String id = document.getId();
+                                GeoPoint loc = (GeoPoint)document.getData().get("location");
+                                LatLng spot = new LatLng(loc.getLatitude(),loc.getLongitude());
+                                mTrees.put(id,loc);
+                                dropMarker(spot,"Cool tree","Cool info");
+
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }
