@@ -6,141 +6,162 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".dataView">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_weight="1"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="9"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:src="@drawable/uparrow"
-            android:layout_weight="1"
-            android:onClick="onUpvote"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:text="score goes here"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_weight="1"
-            android:src="@drawable/downarrow"
-            android:onClick="onDownvote"/>
-    </LinearLayout>
-    <ImageView
-        android:id="@+id/imageView"
+
+    <ScrollView
+        style="@android:style/Widget.Holo.Light.ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@raw/defaulttree1"
-        android:layout_weight="1"/>
-</LinearLayout>
+
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
-                <ScrollView
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:layout_weight="1"
+                            android:onClick="onUpvote"
+                            android:src="@drawable/uparrow" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:text="score goes here" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:layout_weight="1"
+                            android:onClick="onDownvote"
+                            android:src="@drawable/downarrow" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_weight="1"
+                        android:src="@raw/defaulttree1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Species Loading"
-                        android:id="@+id/species"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tree Height(aprox)"
-                        android:id="@+id/height"
-                        android:layout_below="@+id/species"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tree diameter(aprox)"
-                        android:layout_below="@+id/height"
 
-                        android:id="@+id/diam"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tree age(aprox)"
-                        android:id="@+id/age"
-                        android:layout_below="@+id/diam"/>
+                        <TextView
+                            android:id="@+id/species"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Species Loading" />
+
+                        <TextView
+                            android:id="@+id/height"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/species"
+                            android:text="Tree Height(aprox)" />
+
+                        <TextView
+                            android:id="@+id/diam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/height"
+
+                            android:text="Tree diameter(aprox)" />
+
+                        <TextView
+                            android:id="@+id/age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/diam"
+                            android:text="Tree age(aprox)" />
 
 
                         <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Health"
+                            android:id="@+id/health"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/age"
 
-                            android:id="@+id/health"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Life Expectancy"
-                        android:layout_below="@+id/health"
+                            android:text="Health" />
 
-                        android:id="@+id/life"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_below="@+id/life"
+                        <TextView
+                            android:id="@+id/life"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/health"
 
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:scrollbars= "vertical"
-                        android:textColor="@color/textDark"
-                        android:id="@+id/dataText"
-                        android:text="
-             Loading \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-                          Loading \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-             Loading \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+                            android:text="Life Expectancy" />
 
-"/>
+                        <TextView
+                            android:id="@+id/dataText"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/life"
+                            android:layout_weight="1"
+                            android:text="Loading \n"
+                            android:textColor="@color/textDark" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="loading comments\n"
+                            android:id="@+id/commentList"
+                            android:layout_below="@+id/dataText">
+
+                        </TextView>
                     </RelativeLayout>
-                </ScrollView>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onNot"
+                        android:text="Not a Tree" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="addComment"
+                        android:text="Add a new Comment" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onOK"
+                        android:text="Tree is OK now" />
+                </LinearLayout>
             </LinearLayout>
+    </ScrollView>
 
-
-
-    <LinearLayout
-        android:layout_weight="8"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Not a Tree"
-            android:onClick="onNot"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Comments"
-            android:onClick="gotoComments"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Tree is OK now"
-            android:onClick="onOK"/>
-    </LinearLayout>
-</LinearLayout>
-    </RelativeLayout>
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
