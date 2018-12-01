@@ -8,6 +8,9 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.GeoPoint;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -163,6 +166,7 @@ public class TreeRecord implements Parcelable {
         private TreeHealth health;
         private int lifeExpectancy;
         private String recommendations;
+        private String user;
 
         public Builder(GeoPoint location) {
             this.location = location;
@@ -220,6 +224,11 @@ public class TreeRecord implements Parcelable {
 
         public Builder recommendations(String recommendations) {
             this.recommendations = recommendations;
+            return this;
+        }
+
+        public Builder user() {
+            this.user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             return this;
         }
 
