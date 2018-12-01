@@ -1,12 +1,16 @@
 package com.example.treesquad.leafspace;
 
 import com.example.treesquad.leafspace.db.TreeRecord;
+import com.example.treesquad.leafspace.db.api.Api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +27,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,12 +36,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
 
@@ -51,20 +51,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFused;
     private Location mLastKnownLocation;
     private Marker currMarker;
-    private ArrayList<Marker> mMarkers;
-    private HashMap<String,GeoPoint> mTrees;
-    private ImageView mInfo;
-    private FirebaseFirestore db;
+    private HashMap<Marker,TreeRecord> mTrees;
+    private ImageView mInfoToggle;
+    private Api api;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        mInfo = findViewById(R.id.marker_info);
-        mMarkers = new ArrayList<Marker>();
-        mTrees = new HashMap<String,GeoPoint>();
+        mInfoToggle = findViewById(R.id.marker_info);
+        mTrees = new HashMap<>();
+        api = Api.getInstance();
 
-        db = FirebaseFirestore.getInstance();
         getTrees();
 
         getLocPerm();
@@ -82,13 +80,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toast.makeText(this,"Map is ready!", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
+        mMap.setInfoWindowAdapter(new MarkerInfoAdapter(MapActivity.this));
 
         if(mLocPermGranted) {
             updateLocationUI();
             getDeviceLocation();
         }
 
-        mInfo.setOnClickListener(new View.OnClickListener() {
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent dataIntent = new Intent(MapActivity.this,dataView.class);
+                dataIntent.putExtra("id",mTrees.get(currMarker).id);
+                dataIntent.putExtra("tree_record",mTrees.get(currMarker));
+                startActivity(dataIntent);
+                Log.d(TAG,"DataView activity started");
+            }
+        });
+
+        mInfoToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked place info");
@@ -193,42 +203,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void dropMarker(LatLng pos, String title, String snippet) {
+    public void dropMarker(LatLng pos, String title, String snippet, TreeRecord tree) {
+        Drawable dr = getResources().getDrawable(R.drawable.tree);
+        Bitmap bit = ((BitmapDrawable)dr).getBitmap();
+        BitmapDrawable scaled = new BitmapDrawable(getResources(),Bitmap.createScaledBitmap(bit,256,256,true));
+        BitmapDescriptor bd = BitmapDescriptorFactory.fromBitmap(scaled.getBitmap());
         MarkerOptions options = new MarkerOptions()
                 .position(pos)
                 .title(title)
-                .snippet(snippet);
+                .snippet(snippet)
+                .icon(bd);
         Marker newMarker = mMap.addMarker(options);
-        mMarkers.add(newMarker);
+        mTrees.put(newMarker,tree);
         Log.d(TAG,"Added marker with title: " + title);
     }
 
     public boolean onMarkerClick(Marker marker) {
         currMarker = marker;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currMarker.getPosition()));
+        currMarker.showInfoWindow();
         return true;
     }
 
     public void getTrees() {
-        db.collection("trees")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getId();
-                                GeoPoint loc = (GeoPoint)document.getData().get("location");
-                                LatLng spot = new LatLng(loc.getLatitude(),loc.getLongitude());
-                                mTrees.put(id,loc);
-                                dropMarker(spot,"Cool tree","Cool info");
-
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        api.getAllTrees((treeList,success) ->  {
+            if(!success) {
+                return;
+            }
+            else {
+                for(TreeRecord tree: treeList) {
+                    LatLng ll = new LatLng(tree.location.getLatitude(),tree.location.getLongitude());
+                    String snippet = "Species: " + (tree.species==null ? "N/A":tree.species) + "\n"
+                            + "Health: " + (tree.health==null ? "N/A":tree.health.toString()) + "\n"
+                            + "Recommendations: " + (tree.recommendations==null ? "N/A":tree.recommendations);
+                    dropMarker(ll,"Cool Tree",snippet,tree);
+                    Log.d(TAG,ll.toString());
+                }
+            }
+        });
     }
 }
