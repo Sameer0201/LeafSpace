@@ -228,7 +228,7 @@ public class TreeRecord implements Parcelable {
         }
 
         public Builder user() {
-            this.user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            this.user = FirebaseAuth.getInstance().getCurrentUser().getUid();
             return this;
         }
 
