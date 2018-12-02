@@ -28,32 +28,32 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="9"
-                        android:orientation="vertical">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="9"-->
+                        <!--android:orientation="vertical">-->
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="90dp"
-                            android:layout_weight="1"
-                            android:onClick="onUpvote"
-                            android:src="@drawable/uparrow" />
+                        <!--<ImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="90dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:onClick="onUpvote"-->
+                            <!--android:src="@drawable/uparrow" />-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:text="score goes here" />
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="3"-->
+                            <!--android:text="score goes here" />-->
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="90dp"
-                            android:layout_weight="1"
-                            android:onClick="onDownvote"
-                            android:src="@drawable/downarrow" />
-                    </LinearLayout>
+                        <!--<ImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="90dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:onClick="onDownvote"-->
+                            <!--android:src="@drawable/downarrow" />-->
+                    <!--</LinearLayout>-->
 
                     <ImageView
                         android:id="@+id/imageView"

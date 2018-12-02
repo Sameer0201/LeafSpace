@@ -57,8 +57,13 @@ public class dataView extends AppCompatActivity implements Api.Callback {
       } catch (NullPointerException e){
           Log.i("DATAVIEW","Failed to get the age");
       }
-        ((TextView) findViewById(R.id.dataText)).setText("Recommended Action:"+treeRecord.recommendations+"\n\n");
+      try {
+          ((TextView) findViewById(R.id.dataText)).setText("Recommended Action:" + treeRecord.recommendations + "\n\n");
+      } catch (NullPointerException e){
+
+      }
         ((TextView) findViewById(R.id.diam)).setText("Diameter:"+Double.toString(treeRecord.diameter));
+
         ((TextView) findViewById(R.id.height)).setText("Height:"+Double.toString(treeRecord.height));
         ((TextView) findViewById(R.id.life)).setText("Life expectancy:"+Double.toString(treeRecord.lifeExpectancy));
 
@@ -66,7 +71,7 @@ public class dataView extends AppCompatActivity implements Api.Callback {
 
 
 
-        String s = "Placeholder Title";
+        String s =treeRecord.species;
         setTitle(s);
         getComments();
         //TextView textView = (TextView) findViewById(R.id.dataText);
