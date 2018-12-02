@@ -57,16 +57,21 @@ public class dataView extends AppCompatActivity implements Api.Callback {
       } catch (NullPointerException e){
           Log.i("DATAVIEW","Failed to get the age");
       }
-        ((TextView) findViewById(R.id.dataText)).setText("Recommended Action:"+treeRecord.recommendations+"\n\n");
+      try {
+          ((TextView) findViewById(R.id.dataText)).setText("Recommended Action for Best Upkeep:\n" + treeRecord.recommendations + "\n\n");
+      } catch (NullPointerException e){
+
+      }
         ((TextView) findViewById(R.id.diam)).setText("Diameter:"+Double.toString(treeRecord.diameter));
+
         ((TextView) findViewById(R.id.height)).setText("Height:"+Double.toString(treeRecord.height));
         ((TextView) findViewById(R.id.life)).setText("Life expectancy:"+Double.toString(treeRecord.lifeExpectancy));
 
-       // ((TextView) findViewById(R.id.health)).setText(treeRecord.health);
+        ((TextView) findViewById(R.id.health)).setText(treeRecord.health.toString());
 
 
 
-        String s = "Placeholder Title";
+        String s =treeRecord.species;
         setTitle(s);
         getComments();
         //TextView textView = (TextView) findViewById(R.id.dataText);
@@ -105,7 +110,7 @@ public class dataView extends AppCompatActivity implements Api.Callback {
 
         api = Api.getInstance();
         api.getTreeComments(treeRecord, (comments, success) -> {
-            String commentText = "";
+            String commentText = "Comments:\n";
             for (Comment comment : comments) {
                 commentText += comment.text + "\n\n";
             }

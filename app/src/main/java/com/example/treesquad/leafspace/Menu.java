@@ -41,7 +41,6 @@ public class Menu extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecycleViewTreeAdapter rAdapter;
-
     private TextView loadingView;
 
     @Override
