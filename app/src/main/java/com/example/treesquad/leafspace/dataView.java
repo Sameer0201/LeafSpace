@@ -110,7 +110,7 @@ public class dataView extends AppCompatActivity implements Api.Callback {
 
         api = Api.getInstance();
         api.getTreeComments(treeRecord, (comments, success) -> {
-            String commentText = "";
+            String commentText = "Comments:\n";
             for (Comment comment : comments) {
                 commentText += comment.text + "\n\n";
             }
