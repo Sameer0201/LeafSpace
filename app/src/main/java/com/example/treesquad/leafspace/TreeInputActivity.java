@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,12 @@ public class TreeInputActivity extends AppCompatActivity{
     private Button getCurrentLocationButton;
     private TextView locationText;
     private EditText speciesEditText;
+    private EditText ageEditText;
+    private EditText lifeEditText;
+    private EditText heightEditText;
+    private EditText diameterEditText;
+    private EditText recEditText;
+    private SeekBar healthSeekBar;
     private ImageView mImageView;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location lastLocation;
@@ -56,6 +64,7 @@ public class TreeInputActivity extends AppCompatActivity{
     private Api api;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_PERMISSIONS=4;
 
     private Bitmap submitBitmap;
     String mCurrentPhotoPath;
@@ -71,26 +80,42 @@ public class TreeInputActivity extends AppCompatActivity{
 
 
         //getSupportActionBar().setTitle("Add New Tree");
-        submitButton = findViewById(R.id.AddTreeSubmitButton);
-        getCurrentLocationButton = findViewById(R.id.getLocationButton);
+        submitButton = findViewById(R.id.TreeSubmitButton);
+        getCurrentLocationButton = findViewById(R.id.UpdateLocationButton);
         locationText = findViewById(R.id.TreeLocationTextView);
-        speciesEditText = findViewById(R.id.TreeTypeEditText);
-        mImageView = findViewById(R.id.TreeInputImage);
+        speciesEditText = findViewById(R.id.TreeSpeciesEdit);
+        ageEditText = findViewById(R.id.TreeAgeEdit);
+        lifeEditText = findViewById(R.id.TreeLifeEdit);
+        heightEditText = findViewById(R.id.TreeHeightEdit);
+        diameterEditText = findViewById(R.id.TreeDiametertEdit);
+        recEditText = findViewById(R.id.RecommendationEdit);
+
+        healthSeekBar = findViewById(R.id.TreeHealthSeek);
+        mImageView = findViewById(R.id.TreeImageView);
 
 
 
-        //mImageView.setOnClickListener(v -> DispatchTakePictureIntent());
-        //submitButton.setOnClickListener(this::submitTree);
-        //getCurrentLocationButton.setOnClickListener(v -> GetLocation());
+        mImageView.setOnClickListener(v -> DispatchTakePictureIntent());
+        submitButton.setOnClickListener(this::SubmitTree);
+        getCurrentLocationButton.setOnClickListener(v -> GetLocation());
 
+
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(this,perms, REQUEST_PERMISSIONS);
+        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+        GetLocation();
 
         api = Api.getInstance();
 
     }
 
-    private void submitTree(View view) {
+    private void SubmitTree(View view) {
 
         if(speciesEditText.getText().equals(""))
         {
@@ -104,27 +129,20 @@ public class TreeInputActivity extends AppCompatActivity{
         }
 
 
-        /*
-        String[] values = locationEditText.getText().toString().split(",");
-        double lat = 0, lon = 0;
-        if (values.length >= 2) {
-            lat = Double.parseDouble(values[0]);
-            lon = Double.parseDouble(values[1]);
-        }
-        */
-
-        // TODO: replace this with the actual image
-       // Bitmap image = BitmapFactory.decodeResource(this.getResources(), R.raw.defaulttree1);
-
         TreeRecord record = new TreeRecord.Builder(new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude()))
                 .species(speciesEditText.getText().toString())
                 .image(submitBitmap)
+                .age(Integer.parseInt(ageEditText.getText().toString()))
+                .diameter(Integer.parseInt(diameterEditText.getText().toString()))
+                .height(Integer.parseInt(ageEditText.getText().toString()))
+                .lifeExpectancy(Integer.parseInt(lifeEditText.getText().toString()))
+                .recommendations(recEditText.getText().toString())
+                .health(TreeRecord.TreeHealth.values()[healthSeekBar.getProgress()])
                 .user()
                 .build();
 
         Toast.makeText(this,"Processing Submission...",Toast.LENGTH_LONG).show();
         api.putTree(record, (treeRecord, success) -> {
-            // TODO: see if it worked here
             if(success)
             {
                 Log.d("LeafSpace", "Tree submitted successfully!");
@@ -185,7 +203,14 @@ public class TreeInputActivity extends AppCompatActivity{
             }
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);
-                submitBitmap = bitmap;
+                //submitBitmap = bitmap;
+
+                float aspectRatio = bitmap.getWidth() / (float)bitmap.getHeight();
+                int width = 480;
+                int height = Math.round(width / aspectRatio);
+
+                submitBitmap = Bitmap.createScaledBitmap(
+                        bitmap, width, height, false);
             }
 
         }
@@ -227,6 +252,27 @@ public class TreeInputActivity extends AppCompatActivity{
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    Toast.makeText(this,"LeafSpace needs location permissions to submit trees!",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
 
 
 }

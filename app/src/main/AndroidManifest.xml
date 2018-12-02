@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CustomAuthActivity"/>
-        <activity android:name=".Menu" />
+        <activity android:name=".CustomAuthActivity" android:theme="@style/AppThemeNoTitleBar"/>
+        <activity android:name=".Menu"  android:theme="@style/AppThemeNoTitleBar"/>
         <activity android:name=".dataView" />
-        <activity android:name=".TreeInputActivity"/>
+        <activity android:name=".TreeInputActivity" android:theme="@style/AppThemeNoTitleBar"/>
         <activity android:name=".MapActivity" />
 
         <meta-data

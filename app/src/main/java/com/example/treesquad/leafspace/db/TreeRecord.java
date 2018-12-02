@@ -30,9 +30,9 @@ public class TreeRecord implements Parcelable {
     public String recommendations;
 
     public enum TreeHealth {
-       HEALTHY,
-       DISEASED,
-       DEAD,
+        DEAD,
+        DISEASED,
+        HEALTHY,
     }
 
     public TreeRecord(GeoPoint location, Bitmap image, Date created, String imageName, String id) {
@@ -52,9 +52,9 @@ public class TreeRecord implements Parcelable {
         if (doc.contains("species")) this.species = (String) doc.get("species");
         if (doc.contains("height")) this.height = (double) doc.get("height");
         if (doc.contains("diameter")) this.diameter = (double) doc.get("diameter");
-        if (doc.contains("age")) this.age = (int) doc.get("age");
-        if (doc.contains("health")) this.health = TreeHealth.values()[(int) doc.get("health")];
-        if (doc.contains("life_expectancy")) this.lifeExpectancy = (int) doc.get("life_expectancy");
+        if (doc.contains("age")) this.age = ((Long)doc.get("age")).intValue();
+        if (doc.contains("health")) this.health = TreeHealth.values()[((Long)doc.get("health")).intValue()];
+        if (doc.contains("life_expectancy")) this.lifeExpectancy = ((Long)doc.get("life_expectancy")).intValue();
         if (doc.contains("recommendations")) this.recommendations = (String) doc.get("recommendations");
     }
 

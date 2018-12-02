@@ -1,92 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".Menu">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="0dp"
+        app:srcCompat="@drawable/leafspacelogo" />
+
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Today's Top Trees"
-            android:id="@+id/title"
-            android:textSize="34dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/textDark"/>
+
         <LinearLayout
+            android:id="@+id/menupics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:id="@+id/menupics"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/menuPic0"
-                android:src="@raw/defaulttree1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@id/title"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="5"
+                android:gravity="center_horizontal"
                 android:onClick="onprevimg"
-                android:layout_weight="5"
-                />
+                android:src="@raw/defaulttree1" />
+
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/menuPic"
-                android:src="@raw/defaulttree1"
-                android:layout_below="@id/title"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"
-                android:onClick="onImgClick"
-                android:layout_weight="1"
-                />
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/menuPic2"
-                android:src="@raw/defaulttree1"
                 android:layout_below="@id/title"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
-                android:onClick="onnextimg"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:onClick="onImgClick"
+                android:src="@raw/defaulttree1" />
+
+            <ImageView
+                android:id="@+id/menuPic2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/title"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="5"
-                />
+                android:gravity="center_horizontal"
+                android:onClick="onnextimg"
+                android:src="@raw/defaulttree1" />
 
         </LinearLayout>
+
         <Button
-            android:text="Add new tree"
+            android:id="@+id/newtree"
+            style="@android:style/Widget.Holo.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/newtree"
             android:layout_above="@id/browsetrees"
             android:onClick="OnAddNewTreeClicked"
 
-            />
+            android:text="Add new tree" />
 
         <Button
-            android:text="Browse trees"
             android:id="@+id/browsetrees"
+            style="@android:style/Widget.Holo.Button"
             android:layout_width="match_parent"
-            android:textAlignment="center"
-            android:gravity="bottom"
-            android:layout_alignParentBottom="true"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
             android:onClick="OnBrowseTreesClicked"
-            />
-
+            android:text="Browse trees"
+            android:textAlignment="center" />
 
 
     </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,10 +1,14 @@
 package com.example.treesquad.leafspace;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.example.treesquad.leafspace.db.Comment;
@@ -24,6 +28,12 @@ public class Menu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
+        // set an exit transition
+        getWindow().setExitTransition(new Slide());
+
         setContentView(R.layout.activity_menu);
 
         menuPic = findViewById(R.id.menuPic);
@@ -58,6 +68,7 @@ public class Menu extends AppCompatActivity {
         Intent i = new Intent(Menu.this, dataView.class);
         int pid=pids[currentPID];
         i.putExtra("id",pid);
+        treeRecords.get(0).image = null; //if you dont do this the parcel is too big and android dies
         i.putExtra("tree_record", treeRecords.get(0));
         //database stuff
         startActivity(i);
@@ -90,12 +101,12 @@ public class Menu extends AppCompatActivity {
     public void OnAddNewTreeClicked(View view)
     {
         Intent i = new Intent(this, TreeInputActivity.class);
-        startActivity(i);
+        startActivity(i,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void OnBrowseTreesClicked(View view)
     {
         Intent i = new Intent(this, MapActivity.class);
-        startActivity(i);
+        startActivity(i,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
