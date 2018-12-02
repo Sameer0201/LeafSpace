@@ -58,7 +58,7 @@ public class dataView extends AppCompatActivity implements Api.Callback {
           Log.i("DATAVIEW","Failed to get the age");
       }
       try {
-          ((TextView) findViewById(R.id.dataText)).setText("Recommended Action:" + treeRecord.recommendations + "\n\n");
+          ((TextView) findViewById(R.id.dataText)).setText("Recommended Action for Best Upkeep:\n" + treeRecord.recommendations + "\n\n");
       } catch (NullPointerException e){
 
       }
@@ -67,7 +67,7 @@ public class dataView extends AppCompatActivity implements Api.Callback {
         ((TextView) findViewById(R.id.height)).setText("Height:"+Double.toString(treeRecord.height));
         ((TextView) findViewById(R.id.life)).setText("Life expectancy:"+Double.toString(treeRecord.lifeExpectancy));
 
-       // ((TextView) findViewById(R.id.health)).setText(treeRecord.health);
+        ((TextView) findViewById(R.id.health)).setText(treeRecord.health.toString());
 
 
 
