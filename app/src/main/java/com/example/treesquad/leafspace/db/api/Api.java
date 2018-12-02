@@ -2,6 +2,7 @@ package com.example.treesquad.leafspace.db.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.treesquad.leafspace.db.Comment;
 import com.example.treesquad.leafspace.db.TreeRecord;
@@ -36,9 +37,10 @@ public class Api {
     }
 
     private void getImageByName(String name, Callback<Bitmap> callback) {
+        Log.d(TAG, "Grabbing image with name: " + name);
         this.storage.getReference()
                 .child(name)
-                .getBytes(1025 * 1024)
+                .getBytes(1025 * 1024*25)
                 .addOnSuccessListener(bytes -> {
                     Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     callback.handle(image, true);
@@ -59,6 +61,7 @@ public class Api {
     }
 
     public void getTreeById(String id, Callback<TreeRecord> callback) {
+        Log.d(TAG, "Grabbing tree with id: " + id);
         this.db.collection("trees")
                 .document(id)
                 .get()
