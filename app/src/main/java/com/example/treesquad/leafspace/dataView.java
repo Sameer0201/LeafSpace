@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,6 +44,22 @@ public class dataView extends AppCompatActivity {
 
         //database stuff
         //String s = treeRecord.getTitle();
+        String a = treeRecord.species;
+        ((TextView) findViewById(R.id.species)).setText("Species:"+treeRecord.species);
+      try {
+          ((TextView) findViewById(R.id.age)).setText("Age in Years:"+Integer.toString(treeRecord.age));
+      } catch (NullPointerException e){
+          Log.i("DATAVIEW","Failed to get the age");
+      }
+        ((TextView) findViewById(R.id.dataText)).setText("Recommended Action:"+treeRecord.recommendations+"\n\n");
+        ((TextView) findViewById(R.id.diam)).setText("Diameter:"+Double.toString(treeRecord.diameter));
+        ((TextView) findViewById(R.id.height)).setText("Height:"+Double.toString(treeRecord.height));
+        ((TextView) findViewById(R.id.life)).setText("Life expectancy:"+Double.toString(treeRecord.lifeExpectancy));
+
+       // ((TextView) findViewById(R.id.health)).setText(treeRecord.health);
+
+
+
         String s = "Placeholder Title";
         setTitle(s);
         getComments();
