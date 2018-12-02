@@ -119,6 +119,7 @@ public class TreeInputActivity extends AppCompatActivity{
         TreeRecord record = new TreeRecord.Builder(new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude()))
                 .species(speciesEditText.getText().toString())
                 .image(submitBitmap)
+                .user()
                 .build();
 
         Toast.makeText(this,"Processing Submission...",Toast.LENGTH_LONG).show();

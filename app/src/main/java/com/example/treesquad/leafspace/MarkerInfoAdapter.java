@@ -19,13 +19,6 @@ public class MarkerInfoAdapter implements GoogleMap.InfoWindowAdapter {
     }
 
     private void renderWindowText(Marker marker, View view) {
-        String title = marker.getTitle();
-        TextView tvTitle = view.findViewById(R.id.title);
-
-        if(!title.equals("")) {
-            tvTitle.setText(title);
-        }
-
         String snippet = marker.getSnippet();
         TextView tvSnippet = view.findViewById(R.id.snippet);
 
