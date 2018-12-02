@@ -62,14 +62,15 @@ public class TreeInputActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 
         setContentView(R.layout.activity_tree_input_2);
 
 
-        getSupportActionBar().setTitle("Add New Tree");
+        //getSupportActionBar().setTitle("Add New Tree");
         submitButton = findViewById(R.id.AddTreeSubmitButton);
         getCurrentLocationButton = findViewById(R.id.getLocationButton);
         locationText = findViewById(R.id.TreeLocationTextView);
