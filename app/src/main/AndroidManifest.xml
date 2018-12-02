@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".Menu" />
         <activity android:name=".dataView" />
-        <activity android:name=".TreeInputActivity" />
+        <activity android:name=".TreeInputActivity"/>
         <activity android:name=".MapActivity" />
 
         <meta-data

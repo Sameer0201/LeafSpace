@@ -17,6 +17,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,12 @@ import com.example.treesquad.leafspace.db.api.Api;
 import com.example.treesquad.leafspace.db.TreeRecord;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -36,7 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TreeInputActivity extends AppCompatActivity {
+public class TreeInputActivity extends AppCompatActivity{
     private Button submitButton;
     private Button getCurrentLocationButton;
     private TextView locationText;
@@ -44,6 +51,7 @@ public class TreeInputActivity extends AppCompatActivity {
     private ImageView mImageView;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location lastLocation;
+
 
     private Api api;
 
@@ -55,7 +63,10 @@ public class TreeInputActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tree_input);
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.activity_tree_input_2);
 
 
         getSupportActionBar().setTitle("Add New Tree");
@@ -65,14 +76,17 @@ public class TreeInputActivity extends AppCompatActivity {
         speciesEditText = findViewById(R.id.TreeTypeEditText);
         mImageView = findViewById(R.id.TreeInputImage);
 
-        mImageView.setOnClickListener(v -> DispatchTakePictureIntent());
-        submitButton.setOnClickListener(this::submitTree);
-        getCurrentLocationButton.setOnClickListener(v -> GetLocation());
+
+
+        //mImageView.setOnClickListener(v -> DispatchTakePictureIntent());
+        //submitButton.setOnClickListener(this::submitTree);
+        //getCurrentLocationButton.setOnClickListener(v -> GetLocation());
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         api = Api.getInstance();
+
     }
 
     private void submitTree(View view) {
@@ -210,4 +224,8 @@ public class TreeInputActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"App does not have permission to access location!", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 }
+
