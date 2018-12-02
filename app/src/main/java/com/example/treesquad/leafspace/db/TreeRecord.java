@@ -28,6 +28,7 @@ public class TreeRecord implements Parcelable {
     public TreeHealth health;
     public int lifeExpectancy;
     public String recommendations;
+    public String user;
 
     public enum TreeHealth {
         DEAD,
@@ -48,6 +49,7 @@ public class TreeRecord implements Parcelable {
         this.imageName = (String) doc.get("image");
         this.location  = (GeoPoint) doc.get("location");
         this.id = doc.getId();
+        this.user = doc.getString("user");
 
         if (doc.contains("species")) this.species = (String) doc.get("species");
         if (doc.contains("height")) this.height = (double) doc.get("height");
@@ -71,6 +73,7 @@ public class TreeRecord implements Parcelable {
         health = builder.health;
         lifeExpectancy = builder.lifeExpectancy;
         recommendations = builder.recommendations;
+        user = builder.user;
     }
 
     private TreeRecord(Parcel in) {
@@ -90,6 +93,7 @@ public class TreeRecord implements Parcelable {
         }
         this.lifeExpectancy = in.readInt();
         this.recommendations = in.readString();
+        this.user = in.readString();
     }
 
     @Override
@@ -117,6 +121,7 @@ public class TreeRecord implements Parcelable {
         }
         out.writeInt(lifeExpectancy);
         out.writeString(recommendations);
+        out.writeString(user);
     }
 
     public Map<String,Object> toMap() {
@@ -124,6 +129,7 @@ public class TreeRecord implements Parcelable {
         recordMap.put("created", created);
         recordMap.put("image", imageName);
         recordMap.put("location", location);
+        recordMap.put("user", user);
 
         if (species != null) recordMap.put("species", species);
         if (height != 0) recordMap.put("height", height);
@@ -170,6 +176,7 @@ public class TreeRecord implements Parcelable {
 
         public Builder(GeoPoint location) {
             this.location = location;
+            this.user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         public Builder image(Bitmap image) {
@@ -224,11 +231,6 @@ public class TreeRecord implements Parcelable {
 
         public Builder recommendations(String recommendations) {
             this.recommendations = recommendations;
-            return this;
-        }
-
-        public Builder user() {
-            this.user = FirebaseAuth.getInstance().getCurrentUser().getUid();
             return this;
         }
 
