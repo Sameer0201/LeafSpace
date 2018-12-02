@@ -138,6 +138,31 @@ public class Menu extends AppCompatActivity {
         startActivity(i,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.d(TAG,"Resuming!");
+
+        rAdapter.notifyDataSetChanged();
+        recyclerView.postInvalidateDelayed(1000);
+
+        for (int childCount = recyclerView.getChildCount(), i = 0; i < childCount; ++i) {
+            final RecycleViewTreeAdapter.TreeViewHolder holder = (RecycleViewTreeAdapter.TreeViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(i));
+            holder.itemView.postInvalidateDelayed(1000);
+        }
+        getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
+        /*
+        int i = ((LinearLayoutManager)layoutManager).getItemCount();
+        for(int x = 0; x< i; x++)
+        {
+            if(recyclerView)
+        }*/
+    }
+
+
+
+
     public class RecycleViewTreeAdapter extends RecyclerView.Adapter<RecycleViewTreeAdapter.TreeViewHolder>{
         @NonNull
         @Override
