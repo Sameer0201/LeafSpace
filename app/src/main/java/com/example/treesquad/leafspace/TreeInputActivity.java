@@ -138,7 +138,6 @@ public class TreeInputActivity extends AppCompatActivity{
                 .lifeExpectancy(Integer.parseInt(lifeEditText.getText().toString()))
                 .recommendations(recEditText.getText().toString())
                 .health(TreeRecord.TreeHealth.values()[healthSeekBar.getProgress()])
-                .user()
                 .build();
 
         Toast.makeText(this,"Processing Submission...",Toast.LENGTH_LONG).show();
