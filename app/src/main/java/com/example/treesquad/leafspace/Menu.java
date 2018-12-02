@@ -2,7 +2,11 @@ package com.example.treesquad.leafspace;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -56,6 +60,12 @@ public class Menu extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         rAdapter = new RecycleViewTreeAdapter(treeRecords);
         recyclerView.setAdapter(rAdapter);
+        ImageView loadingIcon = findViewById(R.id.MenuLoadingIcon);
+        Drawable drawable = loadingIcon.getDrawable();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
+
 
         //menuPic = findViewById(R.id.menuPic);
         api = Api.getInstance();
