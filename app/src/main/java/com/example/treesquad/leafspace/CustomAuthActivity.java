@@ -44,6 +44,8 @@ public class CustomAuthActivity extends AppCompatActivity {
                         .setTheme(R.style.AppThemeNoTitleBar)
                         .build(),
                 RC_SIGN_IN);
+
+
     }
 
     @Override
@@ -60,6 +62,8 @@ public class CustomAuthActivity extends AppCompatActivity {
 
                 Intent i = new Intent(CustomAuthActivity.this, Menu.class);
                 startActivity(i);
+
+                finish();
 
             } else {
 

@@ -11,7 +11,8 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
+        android:layout_marginTop="40dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingBottom="0dp"
@@ -23,50 +24,27 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
-        <LinearLayout
-            android:id="@+id/menupics"
+        <TextView
+            android:id="@+id/MenuLoadingText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/MenuRecycleView"
+            android:layout_marginBottom="2dp"
+            android:gravity="center_vertical"
+            android:text="Loading..."
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
-            <ImageView
-                android:id="@+id/menuPic0"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/title"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="5"
-                android:gravity="center_horizontal"
-                android:onClick="onprevimg"
-                android:src="@raw/defaulttree1" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/MenuRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/newtree"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="16dp">
 
-            <ImageView
-                android:id="@+id/menuPic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/title"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onImgClick"
-                android:src="@raw/defaulttree1" />
 
-            <ImageView
-                android:id="@+id/menuPic2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/title"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="5"
-                android:gravity="center_horizontal"
-                android:onClick="onnextimg"
-                android:src="@raw/defaulttree1" />
-
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
         <Button
             android:id="@+id/newtree"
@@ -84,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:gravity="bottom"
             android:onClick="OnBrowseTreesClicked"
             android:text="Browse trees"
             android:textAlignment="center" />
