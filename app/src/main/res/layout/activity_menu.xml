@@ -61,26 +61,42 @@
 
 
         </android.support.v7.widget.RecyclerView>
-
-        <Button
-            android:id="@+id/newtree"
-            style="@android:style/Widget.Holo.Button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/browsetrees"
-            android:onClick="OnAddNewTreeClicked"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
 
-            android:text="Add new tree" />
+            <Button
+                android:id="@+id/newtree"
+                style="@android:style/Widget.Holo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/browsetrees"
+                android:onClick="OnAddNewTreeClicked"
 
-        <Button
-            android:id="@+id/browsetrees"
-            style="@android:style/Widget.Holo.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:onClick="OnBrowseTreesClicked"
-            android:text="Browse trees"
-            android:textAlignment="center" />
+                android:text="Add new tree" />
+
+            <Button
+                android:id="@+id/browsetrees"
+                style="@android:style/Widget.Holo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="OnBrowseTreesClicked"
+                android:text="Browse trees"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/viewmytrees"
+                style="@android:style/Widget.Holo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:onClick="OnViewMyTreesClicked"
+                android:text="View my trees"
+                android:textAlignment="center" />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

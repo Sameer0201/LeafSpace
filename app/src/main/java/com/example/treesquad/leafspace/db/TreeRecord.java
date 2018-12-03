@@ -79,9 +79,6 @@ public class TreeRecord implements Parcelable {
     private TreeRecord(Parcel in) {
         this.location = new GeoPoint(in.readDouble(), in.readDouble());
         this.created = new Date(in.readLong());
-        if (in.readByte() != 0) {
-            this.image = Bitmap.CREATOR.createFromParcel(in);
-        }
         this.imageName = in.readString();
         this.id = in.readString();
         this.species = in.readString();
@@ -101,12 +98,6 @@ public class TreeRecord implements Parcelable {
         out.writeDouble(location.getLatitude());
         out.writeDouble(location.getLongitude());
         out.writeLong(created.getTime());
-        if (image != null) {
-            out.writeByte((byte) 1);
-            image.writeToParcel(out, flags);
-        } else {
-            out.writeByte((byte) 0);
-        }
         out.writeString(imageName);
         out.writeString(id);
         out.writeString(species);

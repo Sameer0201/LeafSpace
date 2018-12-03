@@ -105,11 +105,16 @@ public class Menu extends AppCompatActivity {
         Intent i = new Intent(Menu.this, dataView.class);
         int pid=pids[currentPID];
         i.putExtra("id",pid);
-        treeRecords.get(0).image = null; //if you dont do this the parcel is too big and android dies
         i.putExtra("tree_record", treeRecords.get(0));
         //database stuff
         startActivity(i);
     }
+
+    public void OnViewMyTreesClicked(View view) {
+        Intent i = new Intent(this, UserProfile.class);
+        startActivity(i);
+    }
+
 
 
     //depending on how the database is implemented will determine how these methods are implemented in reality.

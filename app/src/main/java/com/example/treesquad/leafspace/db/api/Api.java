@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.treesquad.leafspace.db.Comment;
 import com.example.treesquad.leafspace.db.TreeRecord;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -115,6 +116,21 @@ public class Api {
 
     public void getAllTrees(Callback<List<TreeRecord>> callback) {
         this.db.collection("trees")
+                .get()
+                .addOnSuccessListener(task -> {
+                    List<TreeRecord> records = new ArrayList<>(task.getDocuments().size());
+                    for (DocumentSnapshot doc : task.getDocuments()) {
+                        records.add(new TreeRecord(doc));
+                    }
+                    callback.handle(records, true);
+                })
+                .addOnFailureListener(task -> callback.handle(null, false));
+    }
+
+    public void getAllTreesForActiveUser(Callback<List<TreeRecord>> callback) {
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.db.collection("trees")
+                .whereEqualTo("user", user)
                 .get()
                 .addOnSuccessListener(task -> {
                     List<TreeRecord> records = new ArrayList<>(task.getDocuments().size());
