@@ -52,8 +52,8 @@ public class TreeRecord implements Parcelable {
         this.user = doc.getString("user");
 
         if (doc.contains("species")) this.species = (String) doc.get("species");
-        if (doc.contains("height")) this.height = (double) doc.get("height");
-        if (doc.contains("diameter")) this.diameter = (double) doc.get("diameter");
+        if (doc.contains("height")) this.height = doc.getDouble("height");
+        if (doc.contains("diameter")) this.diameter = doc.getDouble("diameter");
         if (doc.contains("age")) this.age = ((Long)doc.get("age")).intValue();
         if (doc.contains("health")) this.health = TreeHealth.values()[((Long)doc.get("health")).intValue()];
         if (doc.contains("life_expectancy")) this.lifeExpectancy = ((Long)doc.get("life_expectancy")).intValue();

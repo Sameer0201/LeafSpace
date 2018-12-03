@@ -14,19 +14,19 @@
         app:srcCompat="@drawable/googleg_standard_color_18" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Species: "/>
+                android:text="Species: " />
 
             <TextView
                 android:id="@+id/tree_species"
@@ -46,7 +46,6 @@
             android:text="this is a date"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
-
 
 
     </RelativeLayout>
