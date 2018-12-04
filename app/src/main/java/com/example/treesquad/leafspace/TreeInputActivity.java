@@ -127,14 +127,35 @@ public class TreeInputActivity extends AppCompatActivity{
             Toast.makeText(this,"You need to add a location!", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(lifeEditText.getText().equals(""))
+        {
+            Toast.makeText(this,"You need to add a life expectancy!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(diameterEditText.getText().equals(""))
+        {
+            Toast.makeText(this,"You need to add a diameter!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(ageEditText.getText().equals(""))
+        {
+            Toast.makeText(this,"You need to add an age!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(heightEditText.getText().equals(""))
+        {
+            Toast.makeText(this,"You need to add a height!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
 
         TreeRecord record = new TreeRecord.Builder(new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude()))
                 .species(speciesEditText.getText().toString())
                 .image(submitBitmap)
                 .age(Integer.parseInt(ageEditText.getText().toString()))
-                .diameter(Integer.parseInt(diameterEditText.getText().toString()))
-                .height(Integer.parseInt(ageEditText.getText().toString()))
+                .diameter(Double.parseDouble(diameterEditText.getText().toString()))
+                .height(Double.parseDouble(ageEditText.getText().toString()))
                 .lifeExpectancy(Integer.parseInt(lifeEditText.getText().toString()))
                 .recommendations(recEditText.getText().toString())
                 .health(TreeRecord.TreeHealth.values()[healthSeekBar.getProgress()])
