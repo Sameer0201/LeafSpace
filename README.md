@@ -3,5 +3,5 @@ CMSC 436 group semester project
 Tree finder app.
 
 ## Screenshots
-![alt text](https://i.ibb.co/sb7DNh0/SS1.jpg)
-![alt text](https://ibb.co/hsHGs5T.jpeg)
+![Login Page](https://i.ibb.co/sb7DNh0/SS1.jpg)
+![Home Page](https://i.ibb.co/nrfXr2K/SS2.jpg)
